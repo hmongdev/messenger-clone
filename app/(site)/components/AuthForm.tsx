@@ -22,7 +22,7 @@ const AuthForm = () => {
 		}
 	}, [variant]);
 
-	// react-hook-form
+	// react-hook-form ACTIONS
 	const {
 		register,
 		handleSubmit,
@@ -47,7 +47,7 @@ const AuthForm = () => {
 		}
 	};
 
-	const socialAction = () => {
+	const socialAction = (action: string) => {
 		setIsLoading(true);
 
 		// NextAuth Social Sign In
@@ -67,6 +67,7 @@ const AuthForm = () => {
 							label="Name"
 							register={register}
 							errors={errors}
+							disabled={isLoading}
 						/>
 					)}
 					<Input
@@ -75,6 +76,7 @@ const AuthForm = () => {
 						type="email"
 						register={register}
 						errors={errors}
+						disabled={isLoading}
 					/>
 					<Input
 						id="password"
@@ -82,6 +84,7 @@ const AuthForm = () => {
 						type="password"
 						register={register}
 						errors={errors}
+						disabled={isLoading}
 					/>
 					<div>
 						<Button
