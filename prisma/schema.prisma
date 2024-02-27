@@ -25,8 +25,8 @@ model User {
   updatedAt DateTime @updatedAt
   
   // Chat relation
-  chatId String[] @db.ObjectId // field 'chatId' => array of strings
-  chats Chat[] @relation(fields: [chatId], references: [id]) // link between 'User' and 'Chat' models
+  chatIds String[] @db.ObjectId
+  chats Chat[] @relation(fields: [chatIds], references: [id])
   
   // SeenMessages relation
   seenMessagesIds String[] @db.ObjectId
