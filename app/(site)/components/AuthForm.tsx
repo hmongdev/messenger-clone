@@ -3,9 +3,11 @@
 import Button from '@/app/components/inputs/Button';
 import Input from '@/app/components/inputs/Input';
 import axios from 'axios';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import AuthSocialButton from './AuthSocialButton';
 
@@ -41,20 +43,69 @@ const AuthForm = () => {
 	// submit function
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
-		// axios register
+
+		// axios REGISTER
 		if (variant === 'REGISTER') {
-			axios.post('/api/register', data);
+			axios.post('/api/register', data)
+				.then(() =>
+					signIn('credentials', {
+						...data,
+						redirect: false,
+					})
+				)
+				.then((callback) => {
+					if (callback?.error) {
+						toast.error(
+							'Invalid credentials!'
+						);
+					}
+
+					if (callback?.ok) {
+						router.push('/conversations');
+					}
+				})
+				.catch(() =>
+					toast.error('Something went wrong!')
+				)
+				.finally(() => setIsLoading(false));
 		}
 
+		// NextAuth LOGIN
 		if (variant === 'LOGIN') {
-			// NextAuth SignIn
+			signIn('credentials', {
+				...data,
+				redirect: false,
+			})
+				.then((callback) => {
+					if (callback?.error) {
+						toast.error(
+							'Invalid credentials!'
+						);
+					}
+
+					if (callback?.ok) {
+						router.push('/conversations');
+					}
+				})
+				.finally(() => setIsLoading(false));
 		}
 	};
 
+	// NextAuth SOCIALS
 	const socialAction = (action: string) => {
 		setIsLoading(true);
 
-		// NextAuth Social Sign In
+		signIn(action, { redirect: false })
+			.then((callback) => {
+				if (callback?.error) {
+					toast.error('Invalid credentials!');
+				}
+
+				if (callback?.ok) {
+					router.push('/conversations');
+				}
+			})
+			.finally(() => setIsLoading(false));
 	};
 
 	return (
