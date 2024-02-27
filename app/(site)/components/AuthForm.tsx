@@ -2,6 +2,8 @@
 
 import Button from '@/app/components/inputs/Button';
 import Input from '@/app/components/inputs/Input';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
@@ -10,6 +12,7 @@ import AuthSocialButton from './AuthSocialButton';
 type Variant = 'LOGIN' | 'REGISTER';
 
 const AuthForm = () => {
+	const router = useRouter();
 	const [variant, setVariant] = useState<Variant>('LOGIN');
 	const [isLoading, setIsLoading] = useState(false); // disables buttons/form after submission
 
@@ -38,8 +41,9 @@ const AuthForm = () => {
 	// submit function
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
+		// axios register
 		if (variant === 'REGISTER') {
-			// Axios Register
+			axios.post('/api/register', data);
 		}
 
 		if (variant === 'LOGIN') {
