@@ -3,23 +3,23 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 
-// import Avatar from '@/app/components/Avatar';
+import Avatar from '@/app/components/Avatar';
 // import LoadingModal from '@/app/components/modals/LoadingModal';
 
 interface UserBoxProps {
 	data: User;
 }
 
-const UserBox: React.FC<UserBoxProps> = ({ data }) => {
+const UserBox = ({ data }: UserBoxProps) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleClick = useCallback(() => {
 		setIsLoading(true);
 
-		axios.post('/api/conversations', { userId: data.id })
+		axios.post('/api/chats', { userId: data.id })
 			.then((data) => {
-				router.push(`/conversations/${data.data.id}`);
+				router.push(`/chats/${data.data.id}`);
 			})
 			.finally(() => setIsLoading(false));
 	}, [data, router]);
@@ -42,7 +42,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
           transition
           cursor-pointer
         ">
-				{/* <Avatar user={data} /> */}
+				<Avatar user={data} />
 				<div className="min-w-0 flex-1">
 					<div className="focus:outline-none">
 						<span

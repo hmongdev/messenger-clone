@@ -7,7 +7,7 @@ export default async function UsersLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const users = await getUsers();
+	const users = await getUsers(); // fetch Users
 
 	return (
 		<Sidebar>

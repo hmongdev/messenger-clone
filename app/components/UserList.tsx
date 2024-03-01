@@ -8,7 +8,7 @@ interface UserListProps {
 	items: User[];
 }
 
-const UserList: React.FC<UserListProps> = ({ items }) => {
+const UserList = ({ items }: UserListProps) => {
 	return (
 		<aside
 			className="
@@ -33,7 +33,7 @@ const UserList: React.FC<UserListProps> = ({ items }) => {
               text-neutral-800 
               py-4
             ">
-						People
+						Chats
 					</div>
 				</div>
 				{items.map((item) => (
