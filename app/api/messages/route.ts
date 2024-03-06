@@ -11,8 +11,6 @@ export async function POST(request: Request) {
 		const body = await request.json();
 		const { message, image, chatId } = body;
 
-		console.log(`chatId`, chatId);
-
 		// check if user is authorized to view messages
 		if (!currentUser?.id || !currentUser?.email) {
 			return new NextResponse('Unauthorized', {

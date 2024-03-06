@@ -24,9 +24,9 @@ export default function Form() {
 	});
 
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
+		console.log('chatId', chatId);
 		// after user sends message, clear the input
 		setValue('message', '', { shouldValidate: true });
-
 		// send user's message to messages route
 		axios.post('/api/messages', {
 			...data,

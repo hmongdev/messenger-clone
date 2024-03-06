@@ -22,7 +22,6 @@ const AuthForm = () => {
 	// useEffect
 	useEffect(() => {
 		if (session?.status === 'authenticated') {
-			console.log(`Authenticated`);
 			router.push('/users');
 		}
 	}, [session?.status, router]);
