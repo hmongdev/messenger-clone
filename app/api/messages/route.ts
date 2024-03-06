@@ -1,86 +1,72 @@
-// this is the route that will receive messages from the user and post them to MongoDB
-
-import { NextResponse } from 'next/server';
-
 import getCurrentUser from '@/app/lib/actions/getCurrentUser';
 import prisma from '@/app/lib/prismadb';
+import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
 	try {
+		// get currentUser
 		const currentUser = await getCurrentUser();
 		const body = await request.json();
+		// what are we sending to mongoDB?
 		const { message, image, chatId } = body;
 
-		// check if user is authorized to view messages
+		// check if user is authorized
 		if (!currentUser?.id || !currentUser?.email) {
 			return new NextResponse('Unauthorized', {
 				status: 401,
 			});
 		}
-		//! 1. create new message within a chat
-		// newMessage includes the sender and seen
+
+		// create new message
 		const newMessage = await prisma.message.create({
-			include: {
-				seen: true,
-				sender: true,
-			},
 			data: {
 				body: message,
 				image: image,
 				chat: {
-					connect: { id: chatId },
+					connect: {
+						id: chatId,
+					},
 				},
 				sender: {
-					connect: { id: currentUser.id },
-				},
-				seen: {
 					connect: {
 						id: currentUser.id,
 					},
 				},
 			},
+			include: {
+				seen: true,
+				sender: true,
+			},
 		});
 
-		//! 2. update the chat to include all messages
-		// const updatedChat = await prisma.chat.update({
-		// 	// find the chat
-		// 	where: {
-		// 		id: chatId,
-		// 	},
-		// 	// update the lastMessageAt field
-		// 	data: {
-		// 		lastMessageAt: new Date(),
-		// 		messages: {
-		// 			connect: {
-		// 				id: newMessage.id,
-		// 			},
-		// 		},
-		// 	},
-		// 	include: {
-		// 		users: true,
-		// 		messages: {
-		// 			include: {
-		// 				seen: true,
-		// 			},
-		// 		},
-		// 	},
-		// });
-
-		// await pusherServer.trigger(chatId, 'messages:new', newMessage);
-
-		// const lastMessage =
-		// 	updatedChat.messages[updatedChat.messages.length - 1];
-
-		// updatedChat.users.map((user) => {
-		// 	pusherServer.trigger(user.email!, 'chat:update', {
-		// 		id: chatId,
-		// 		messages: [lastMessage],
-		// 	});
-		// });
+		// update chat to show all messages
+		const updatedChat = await prisma.chat.update({
+			where: {
+				id: chatId,
+			},
+			data: {
+				lastMessageAt: new Date(),
+				messages: {
+					connect: {
+						id: newMessage.id,
+					},
+				},
+			},
+			include: {
+				users: true,
+				messages: {
+					include: {
+						seen: true,
+					},
+				},
+			},
+		});
 
 		return NextResponse.json(newMessage);
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error, 'ERROR_MESSAGES');
-		return new NextResponse('Error', { status: 500 });
+		return new NextResponse('InternalError', {
+			status: 500,
+		});
 	}
 }

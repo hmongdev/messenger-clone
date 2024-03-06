@@ -86,7 +86,7 @@ model Message {
   seen User[] @relation("Seen", fields: [seenIds], references: [id])
   
   // Chat relation
-  chatId String[] @db.ObjectId
+  chatId String @db.ObjectId
   chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
   
   // Sender relation

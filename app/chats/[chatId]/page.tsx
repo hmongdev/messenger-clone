@@ -28,7 +28,7 @@ export default async function ChatId({ params }: { params: IParams }) {
 		<div className="lg:pl-80 h-full">
 			<div className="h-full flex flex-col">
 				<Header chat={chat} />
-				<Body initialMessages={messages} />
+				<Body />
 				<Form />
 			</div>
 		</div>

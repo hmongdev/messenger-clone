@@ -20,7 +20,7 @@ export default async function getChatById(chatId: string) {
 		});
 
 		return chat;
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error, 'SERVER_ERROR');
 		return null;
 	}
