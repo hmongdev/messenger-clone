@@ -6,11 +6,11 @@ import { useMemo, useState } from 'react';
 import { HiChevronLeft } from 'react-icons/hi';
 import { HiEllipsisHorizontal } from 'react-icons/hi2';
 
+import Avatar from '@/app/components/Avatar';
 import useActiveList from '@/app/lib/hooks/useActiveList';
 import useOtherUser from '@/app/lib/hooks/useOtherUser';
-
-// import AvatarGroup from '@/app/components/AvatarGroup';
-// import ProfileDrawer from './ProfileDrawer';
+import AvatarGroup from './AvatarGroup';
+import ProfileDrawer from './ProfileDrawer';
 
 interface HeaderProps {
 	chat: Chat & {
@@ -37,11 +37,11 @@ export default function Header({ chat }: HeaderProps) {
 
 	return (
 		<>
-			{/* <ProfileDrawer
+			<ProfileDrawer
 				data={chat}
 				isOpen={drawerOpen}
 				onClose={() => setDrawerOpen(false)}
-			/> */}
+			/>
 			<div
 				className="
         bg-white 
@@ -69,13 +69,13 @@ export default function Header({ chat }: HeaderProps) {
           ">
 						<HiChevronLeft size={32} />
 					</Link>
-					{/* {chat.isGroup ? (
+					{chat.isGroup ? (
 						<AvatarGroup
 							users={chat.users}
 						/>
 					) : (
 						<Avatar user={otherUser} />
-					)} */}
+					)}
 					<div className="flex flex-col">
 						<div>
 							{chat.name ||
