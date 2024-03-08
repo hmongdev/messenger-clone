@@ -2,6 +2,7 @@
 
 import useChat from '@/app/lib/hooks/useChat';
 import axios from 'axios';
+import { CldUploadButton } from 'next-cloudinary';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { HiPaperAirplane, HiPhoto } from 'react-icons/hi2';
 import MessageInput from './MessageInput';
@@ -21,14 +22,19 @@ export default function Form() {
 	});
 
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
-		const chatIdString = new Object(chatId).toString();
-
 		axios.post('/api/messages', {
 			...data,
-			chatId: chatIdString,
+			chatId: chatId,
 		});
 
 		setValue('message', '', { shouldValidate: true });
+	};
+
+	const handleUpload = (result: any) => {
+		axios.post('/api/messages', {
+			image: result.info.secure_url,
+			chatId: chatId,
+		});
 	};
 
 	return (
@@ -44,7 +50,12 @@ export default function Form() {
 		lg:gap-4 
 		w-full
 	">
-			<HiPhoto size={30} className="text-sky-500" />
+			<CldUploadButton
+				options={{ maxFiles: 1 }}
+				onSuccess={handleUpload}
+				uploadPreset="ycv5k3zd">
+				<HiPhoto size={30} className="text-sky-500" />
+			</CldUploadButton>
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex items-center gap-2 lg:gap-4 w-full">

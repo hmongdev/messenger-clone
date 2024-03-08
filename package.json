@@ -23,7 +23,7 @@
     "mongodb": "^6.3.0",
     "next": "latest",
     "next-auth": "latest",
-    "next-cloudinary": "^6.2.0",
+    "next-cloudinary": "^6.2.1",
     "next-superjson": "^0.0.4",
     "next-superjson-plugin": "^0.5.8",
     "pusher": "^5.2.0",
