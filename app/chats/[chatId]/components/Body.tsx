@@ -1,10 +1,11 @@
 'use client';
 // this is the component for the messages
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useChat from '@/app/lib/hooks/useChat';
 import { FullMessageType } from '@/app/types';
+import axios from 'axios';
 import MessageBox from './MessageBox';
 
 interface BodyProps {
@@ -12,14 +13,14 @@ interface BodyProps {
 }
 
 export default function Body({ initialMessages = [] }: BodyProps) {
-	const bottomRef = useRef<HTMLDivElement>(null);
+	const bottomRef = useRef<HTMLDivElement>(null); // automatically scroll to bottom
 	const [messages, setMessages] = useState(initialMessages);
 
-	const { chatId } = useChat();
+	const { chatId } = useChat(); // used for pusherClient
 
-	// useEffect(() => {
-	// 	axios.post(`/api/chats/${chatId}/seen`);
-	// }, [chatId]);
+	useEffect(() => {
+		axios.post(`/api/chats/${chatId}/seen`);
+	}, [chatId]);
 
 	// useEffect(() => {
 	// 	pusherClient.subscribe(chatId);

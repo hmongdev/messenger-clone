@@ -19,7 +19,9 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
 	const session = useSession();
 	const [imageModalOpen, setImageModalOpen] = useState(false);
 
+	// comparing session user's email with the sender's email => coming from getMessages() bc it contains a User model
 	const isOwn = session.data?.user?.email === data?.sender?.email;
+	// filtering out all the people who have seen the message
 	const seenList = (data.seen || [])
 		.filter((user) => user.email !== data?.sender?.email)
 		.map((user) => user.name)
@@ -36,9 +38,11 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
 
 	return (
 		<div className={container}>
+			{/* avatar picture */}
 			<div className={avatar}>
 				<Avatar user={data.sender} />
 			</div>
+			{/* sender name + last message time */}
 			<div className={body}>
 				<div className="flex items-center gap-1">
 					<div className="text-sm text-gray-500">
@@ -53,6 +57,7 @@ export default function MessageBox({ data, isLast }: MessageBoxProps) {
 						)}
 					</div>
 				</div>
+				{/* message */}
 				<div className={message}>
 					<ImageModal
 						src={data.image}
