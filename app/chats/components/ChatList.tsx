@@ -2,13 +2,13 @@
 
 import { User } from '@prisma/client';
 import clsx from 'clsx';
-// import { find } from 'lodash';
+import { find } from 'lodash';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { MdOutlineGroupAdd } from 'react-icons/md';
 
-// import GroupChatModal from '@/app/components/modals/GroupChatModal';
+import GroupChatModal from '@/app/components/Modals/GroupChatModal';
 import useChat from '@/app/lib/hooks/useChat';
 import { pusherClient } from '@/app/lib/pusher';
 import { FullChatType } from '@/app/types';
@@ -20,7 +20,7 @@ interface ChatListProps {
 	title?: string;
 }
 
-const ChatList = ({ initialItems, users }: ChatListProps) => {
+export default function ChatList({ initialItems, users }: ChatListProps) {
 	const [items, setItems] = useState(initialItems);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -58,15 +58,15 @@ const ChatList = ({ initialItems, users }: ChatListProps) => {
 			);
 		};
 
-		// const newHandler = (conversation: FullChatType) => {
-		// 	setItems((current) => {
-		// 		if (find(current, { id: conversation.id })) {
-		// 			return current;
-		// 		}
+		const newHandler = (conversation: FullChatType) => {
+			setItems((current) => {
+				if (find(current, { id: conversation.id })) {
+					return current;
+				}
 
-		// 		return [conversation, ...current];
-		// 	});
-		// };
+				return [conversation, ...current];
+			});
+		};
 
 		const removeHandler = (conversation: FullChatType) => {
 			setItems((current) => {
@@ -81,17 +81,17 @@ const ChatList = ({ initialItems, users }: ChatListProps) => {
 		};
 
 		pusherClient.bind('conversation:update', updateHandler);
-		// pusherClient.bind('conversation:new', newHandler);
+		pusherClient.bind('conversation:new', newHandler);
 		pusherClient.bind('conversation:remove', removeHandler);
 	}, [pusherKey, router]);
 
 	return (
 		<>
-			{/* <GroupChatModal
+			<GroupChatModal
 				users={users}
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
-			/> */}
+			/>
 			<aside
 				className={clsx(
 					`
@@ -151,4 +151,3 @@ const ChatList = ({ initialItems, users }: ChatListProps) => {
 	);
 };
 
-export default ChatList;

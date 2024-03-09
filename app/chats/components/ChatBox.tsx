@@ -6,10 +6,11 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 
-// import AvatarGroup from '@/app/components/AvatarGroup';
+
 import Avatar from '@/app/components/Avatar';
 import useOtherUser from '@/app/lib/hooks/useOtherUser';
 import { FullChatType } from '@/app/types';
+import AvatarGroup from '../[chatId]/components/AvatarGroup';
 
 interface ChatBoxProps {
 	data: FullChatType;
@@ -86,8 +87,7 @@ const ChatBox = ({ data, selected }: ChatBoxProps) => {
 				selected ? 'bg-neutral-100' : 'bg-white'
 			)}>
 			{data.isGroup ? (
-				// <AvatarGroup users={data.users} />
-				<p>Blank</p>
+				<AvatarGroup users={data.users} />
 			) : (
 				<Avatar user={otherUser} />
 			)}

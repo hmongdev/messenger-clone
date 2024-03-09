@@ -9,7 +9,7 @@ interface ImageModalProps {
 	src?: string | null;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
+export default function ImageModal({ isOpen, onClose, src }: ImageModalProps) {
 	if (!src) {
 		return null;
 	}
@@ -27,5 +27,3 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
 		</Modal>
 	);
 };
-
-export default ImageModal;
