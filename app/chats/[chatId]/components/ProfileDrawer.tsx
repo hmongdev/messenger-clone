@@ -36,8 +36,8 @@ export default function ProfileDrawer({
 	}, [otherUser.createdAt]);
 
 	const title = useMemo(() => {
-		return data.name || otherUser.name;
-	}, [data.name, otherUser.name]);
+		return data.name || otherUser?.name;
+	}, [data.name, otherUser?.name]);
 
 	const { members } = useActiveList();
 	const isActive = members.indexOf(otherUser?.email!) !== -1;
@@ -211,7 +211,7 @@ export default function ProfileDrawer({
                                   sm:col-span-2
                                 ">
 																		{
-																			otherUser.email
+																			otherUser?.email
 																		}
 																	</dd>
 																</div>

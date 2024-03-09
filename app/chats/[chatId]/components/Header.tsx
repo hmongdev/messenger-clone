@@ -79,7 +79,7 @@ export default function Header({ chat }: HeaderProps) {
 					<div className="flex flex-col">
 						<div>
 							{chat.name ||
-								otherUser.name}
+								otherUser?.name}
 						</div>
 						<div className="text-sm font-light text-neutral-500">
 							{statusText}

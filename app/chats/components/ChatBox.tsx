@@ -100,7 +100,7 @@ const ChatBox = ({ data, selected }: ChatBoxProps) => {
 					<div className="flex justify-between items-center mb-1">
 						<p className="text-md font-medium text-gray-900">
 							{data.name ||
-								otherUser.name}
+								otherUser?.name}
 						</p>
 						{lastMessage?.createdAt && (
 							<p

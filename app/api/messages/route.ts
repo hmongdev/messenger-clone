@@ -1,5 +1,6 @@
 import getCurrentUser from '@/app/lib/actions/getCurrentUser';
 import prisma from '@/app/lib/prismadb';
+import { pusherServer } from '@/app/lib/pusher';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -60,6 +61,21 @@ export async function POST(request: Request) {
 					},
 				},
 			},
+		});
+
+		// pusher
+		//adds new message in real-time
+		await pusherServer.trigger(chatId, 'messages:new', newMessage);
+
+		const lastMessage =
+			updatedChat.messages[updatedChat.messages.length - 1];
+
+		// this is to update messages for the desktopsidebar
+		updatedChat.users.map((user) => {
+			pusherServer.trigger(user.email!, 'chat:update', {
+				id: chatId,
+				messages: [lastMessage],
+			});
 		});
 
 		return NextResponse.json(newMessage);
