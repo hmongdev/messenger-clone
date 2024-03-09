@@ -28,61 +28,58 @@ export default function ChatList({ initialItems, users }: ChatListProps) {
 	const session = useSession();
 
 	const { chatId, isOpen } = useChat();
-
+	// Pusher
 	const pusherKey = useMemo(() => {
 		return session.data?.user?.email;
 	}, [session.data?.user?.email]);
 
 	useEffect(() => {
+		// check if pusherKey exists
 		if (!pusherKey) {
 			return;
 		}
 
+		//
 		pusherClient.subscribe(pusherKey);
 
-		const updateHandler = (conversation: FullChatType) => {
+		const updateHandler = (chat: FullChatType) => {
 			setItems((current) =>
-				current.map((currentConversation) => {
-					if (
-						currentConversation.id ===
-						conversation.id
-					) {
+				current.map((currentChat) => {
+					if (currentChat.id === chat.id) {
 						return {
-							...currentConversation,
-							messages: conversation.messages,
+							...currentChat,
+							messages: chat.messages,
 						};
 					}
 
-					return currentConversation;
+					return currentChat;
 				})
 			);
 		};
 
-		const newHandler = (conversation: FullChatType) => {
+		const newHandler = (chat: FullChatType) => {
 			setItems((current) => {
-				if (find(current, { id: conversation.id })) {
+				if (find(current, { id: chat.id })) {
 					return current;
 				}
 
-				return [conversation, ...current];
+				return [chat, ...current];
 			});
 		};
 
-		const removeHandler = (conversation: FullChatType) => {
+		const removeHandler = (chat: FullChatType) => {
 			setItems((current) => {
 				return [
 					...current.filter(
-						(convo) =>
-							convo.id !==
-							conversation.id
+						(convo) => convo.id !== chat.id
 					),
 				];
 			});
 		};
 
-		pusherClient.bind('conversation:update', updateHandler);
-		pusherClient.bind('conversation:new', newHandler);
-		pusherClient.bind('conversation:remove', removeHandler);
+		pusherClient.bind('chat:update', updateHandler); // updates user if a new message appears
+		pusherClient.bind('chat:new', newHandler); // updates user if a new chat is created
+		pusherClient.bind('chat:remove', removeHandler); // updates user if a chat is deleted
 	}, [pusherKey, router]);
 
 	return (

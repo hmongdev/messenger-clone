@@ -41,12 +41,12 @@ export async function DELETE(
 				},
 			},
 		});
-
+		// pusher => removes chat for the user if chat is deleted
 		existingChat.users.forEach((user) => {
 			if (user.email) {
 				pusherServer.trigger(
 					user.email,
-					'conversation:remove',
+					'chat:remove',
 					existingChat
 				);
 			}

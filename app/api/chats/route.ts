@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 				},
 			});
 
-			// Update all connections with new chat
+			// Pusher => Update all connections with new chat
 			newChat.users.forEach((user) => {
 				if (user.email) {
 					pusherServer.trigger(
@@ -119,7 +119,7 @@ export async function POST(request: Request) {
 			},
 		});
 
-		// Update all connections with new chat
+		// Pusher => Update all connections with new chat
 		newChat.users.map((user) => {
 			if (user.email) {
 				pusherServer.trigger(

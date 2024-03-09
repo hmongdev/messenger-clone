@@ -70,7 +70,7 @@ export async function POST(request: Request) {
 		const lastMessage =
 			updatedChat.messages[updatedChat.messages.length - 1];
 
-		// this is to update messages for the desktopsidebar
+		// this is to update all the users if there is a new messages for the desktopsidebar
 		updatedChat.users.map((user) => {
 			pusherServer.trigger(user.email!, 'chat:update', {
 				id: chatId,
