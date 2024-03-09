@@ -26,7 +26,7 @@
     "next-auth": "latest",
     "next-cloudinary": "^6.2.1",
     "next-superjson": "^0.0.4",
-    "next-superjson-plugin": "0.6.3",
+    "next-superjson-plugin": "0.6.1",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
     "react": "latest",
