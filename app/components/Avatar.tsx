@@ -10,6 +10,7 @@ interface AvatarProps {
 }
 
 const Avatar = ({ user }: AvatarProps) => {
+	// active status
 	const { members } = useActiveList();
 	const isActive = members.indexOf(user?.email!) !== -1;
 
@@ -52,7 +53,24 @@ const Avatar = ({ user }: AvatarProps) => {
             md:w-3
           "
 				/>
-			) : null}
+			) : (
+				<span
+					className="
+				absolute 
+				block 
+				rounded-full 
+				bg-gray-400 
+				ring-2 
+				ring-white 
+				top-0 
+				right-0
+				h-2 
+				w-2 
+				md:h-3 
+				md:w-3
+			"
+				/>
+			)}
 		</div>
 	);
 };

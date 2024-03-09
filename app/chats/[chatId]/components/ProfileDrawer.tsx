@@ -38,7 +38,7 @@ export default function ProfileDrawer({
 	const title = useMemo(() => {
 		return data.name || otherUser?.name;
 	}, [data.name, otherUser?.name]);
-
+	// active states
 	const { members } = useActiveList();
 	const isActive = members.indexOf(otherUser?.email!) !== -1;
 
@@ -47,7 +47,7 @@ export default function ProfileDrawer({
 			return `${data.users.length} members`;
 		}
 
-		return isActive ? 'Active' : 'Offline';
+		return isActive ? 'Online' : 'Offline';
 	}, [data, isActive]);
 
 	return (

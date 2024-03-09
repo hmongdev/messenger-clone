@@ -31,8 +31,8 @@ export default function Header({ chat }: HeaderProps) {
 		if (chat.isGroup) {
 			return `${chat.users.length} members`;
 		}
-
-		return isActive ? 'Active' : 'Offline';
+		// active status
+		return isActive ? 'Online' : 'Offline';
 	}, [chat, isActive]);
 
 	return (
