@@ -45,7 +45,7 @@ export default function Body({ initialMessages = [] }: BodyProps) {
 			// scrolls to the bottom
 			bottomRef?.current?.scrollIntoView();
 		};
-
+		// this updates the messages so both users will know when their messages are "seen" by the other
 		const updateMessageHandler = (newMessage: FullMessageType) => {
 			setMessages((current) =>
 				current.map((currentMessage) => {
